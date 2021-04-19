@@ -1,0 +1,33 @@
+<div class="main">
+    <img 
+        class="post-image" 
+        [src]=" data.publication.media_url"
+    >
+    <div class="content-comments">
+        <div class="comments"*ngFor="let text of data.fellingComments">
+            <h5>Comentário : &nbsp;<p>{{text.analyzed_text}}</p></h5>
+            <label [ngStyle]="{'color': text.sentiment.document.label === 'positive' ? 'green': 'red'}">
+                &nbsp;{{text.sentiment.document.label | uppercase }} 
+            </label>
+            <div *ngIf="text?.categories?.length !== 0">
+                <h5>Categorias : </h5>
+                <div *ngFor="let categori of text.categories">
+                    <ul>
+                        <li>{{categori.label}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div *ngIf="text?.keywords?.length !== 0">
+                <h5>Palavras Chave : </h5>
+                <div *ngFor="let keyword of text.keywords">
+                    <ul>
+                        <li>
+                            Palavra Chave: {{keyword.text}} - Relevancia: {{keyword.relevance}} 
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
