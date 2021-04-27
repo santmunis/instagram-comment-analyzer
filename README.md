@@ -3,7 +3,7 @@
 <ul>
   <li>Instale o Node</li>
   <li>npm install</li>
-  <li>npm start</li>
+  <li>ng serve --ssl</li>
 </ul>
 
 <h3>Como rodar a API: </h3>
