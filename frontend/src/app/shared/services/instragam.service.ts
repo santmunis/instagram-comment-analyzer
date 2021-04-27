@@ -8,18 +8,33 @@ import {Observable} from 'rxjs';
 })
 export class InstragamService {
 
-  private readonly _appId: number = environment.appId;
+  private readonly _appId: string = environment.appId;
   private readonly _apiUrl: string = environment.apiUrl;
   private readonly _urlSiteRedirect: string = environment.urlSiteRedirect;
   private readonly _appToken: string = environment.superSecretAppToken;
   private readonly _appApiUrl: string = environment.superSecretAppToken;
-  private readonly token: string = "IGQVJXb2xBb3NWVERJR2VtWXdrWi1LcGtSZADJFMU1kMlJoazJ6ZAlFqT2VJNHo3RjlTaTJ2a3RfdFNEdzVvWnRHQmpwUFlXcnF1ZA3pnQnNsalU3SHY3d0JlXzA0bWRZAbFhpWHRPbzkzdFk1MGQzUnZAWbAZDZD";
+  private token: string = "IGQVJYck93RkptT1NjakhMdFJSNGxsQnNNTXpjQXNJR0lGWjI4a3J3MEw2SHZAPTUNpYUxoTjdncUNUcG83TDFkLTZAoYzYyLTNYeVpER0gySHN4dUVhZAktEV3pueF9CVzE2cG80dVdzUHZAZAT2xDUzE4WAZDZD";
 
   constructor(
     private _http: HttpClient,
   ) {
   }
 
+  public getAuthorization() {
+    window.open(`https://api.instagram.com/oauth/authorize?client_id=${this._appId}&redirect_uri=https://localhost:4200/&scope=user_profile,user_media&response_type=code`);
+  }
+
+  public getToken(code_user) {
+
+    const formData = new FormData();
+    formData.append('client_id', this._appId);
+    formData.append('client_secret', this._appToken);
+    formData.append('grant_type', 'authorization_code');
+    formData.append('redirect_uri', 'https://localhost:4200/');
+    formData.append('code', code_user);
+    return  this._http.post('https://api.instagram.com/oauth/access_token' , formData);
+
+  }
 
   public getInstagramAuthorizhation(): Observable<any> {
     return this._http.get(`https://api.instagram.com/oauth/authorize?client_id=${this._appId}
@@ -42,5 +57,8 @@ export class InstragamService {
     });
   }
 
+  public setToken(token: string) {
+    this.token = token;
+  }
 
 }

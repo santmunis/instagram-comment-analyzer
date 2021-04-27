@@ -27,10 +27,28 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPostUser();
+    const code = this.getParameterByName('code');
+    if (code === null) {
+      this.getAthorization();
+    } else {
+      this._instagramService.getToken(code).subscribe((response: any) => {
+        this._instagramService.setToken(response.access_token);
+        this.getPostUser();
+      });
+    }
+  }
+  public getParameterByName(name, url = window.location.href): string {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+    const results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 
-
+  public getAthorization(){
+    this._instagramService.getAuthorization();
+  }
   public getPostUser(): void {
     this._instagramService.getUserPerfilMidia()
       .subscribe(response => {

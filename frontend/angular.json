@@ -66,6 +66,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "ssl": true,
           "options": {
             "browserTarget": "MashupWeb:build"
           },
